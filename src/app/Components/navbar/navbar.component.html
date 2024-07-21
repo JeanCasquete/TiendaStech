@@ -1,0 +1,68 @@
+<nav class="bg-white shadow-md">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <!-- Logo o nombre de la tienda -->
+      <div class="text-2xl font-bold text-gray-800">
+        <a href="#">Mi Tienda</a>
+      </div>
+  
+      <!-- Enlaces de navegación -->
+      <div class="hidden md:flex items-center space-x-4">
+        <a routerLink="inicio" class="text-gray-800 hover:text-gray-600">Inicio</a>
+        <a routerLink="productos" class="text-gray-800 hover:text-gray-600">Agregar Producto</a>
+        <a href="#" class="text-gray-800 hover:text-gray-600">Contacto</a>
+      </div>
+  
+      <!-- Botones de usuario y carrito -->
+      <div class="flex items-center space-x-4">
+        <a href="#" class="text-gray-800 hover:text-gray-600 hidden md:inline">Iniciar Sesión</a>
+        <a href="#" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 hidden md:inline">Registrarse</a>
+  
+        <!-- Botón de carrito -->
+<!-- Botón de carrito -->
+<div class="relative">
+    <button 
+      (click)="toggleCart()" 
+      class="text-gray-800 hover:text-gray-600 relative"
+      [ngClass]="{'animate-pulse': cartChanged}">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l1.38-6.14A2 2 0 0016.41 5H7.59a2 2 0 00-1.97 1.86L4 17h16"></path>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 13h10l1.38-6.14A2 2 0 0016.41 5H7.59a2 2 0 00-1.97 1.86L4 17h16M5 20h2m10-2h2m-6 2h.01"></path>
+      </svg>
+    </button>
+    <!-- Vista desplegable del carrito -->
+    <!-- ... -->
+  </div>
+  
+  
+          <!-- Vista desplegable del carrito -->
+          <div *ngIf="cartOpen" class="fixed top-0 right-0 mt-4 mr-4 bg-white shadow-lg rounded-lg p-4 w-80 z-50">
+            <button (click)="toggleCart()" class="absolute top-2 right-2 text-gray-600 hover:text-gray-900">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+            <h3 class="text-lg font-bold mb-4">Carrito</h3>
+            <ul>
+              <li *ngFor="let item of cart" class="flex items-center mb-4">
+                <img [src]="item.image" alt="{{item.name}}" class="w-16 h-16 object-cover rounded mr-4">
+                <div class="flex-1">
+                  <h4 class="text-sm font-semibold">{{item.name}}</h4>
+                  <p class="text-xs text-gray-600">${{item.price}} x
+                    <input type="number" [(ngModel)]="item.quantity" (change)="updateQuantity(item, item.quantity)"
+                           class="w-16 ml-2 border rounded px-1 py-0.5">
+                  </p>
+                </div>
+                <button (click)="removeFromCart(item.id)" class="text-red-600 hover:text-red-800">X</button>
+              </li>
+            </ul>
+            <div class="mt-4">
+              <p class="text-lg font-bold">Total: ${{cartTotal}}</p>
+              <button class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mt-4">
+                Ir a Pagar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </nav>
+  

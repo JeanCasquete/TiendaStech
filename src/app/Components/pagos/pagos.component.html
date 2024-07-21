@@ -1,0 +1,52 @@
+<div class="container mx-auto px-6 py-25">
+    <div class="bg-white shadow-lg rounded-lg p-6 flex">
+      <!-- Sección de resumen del pedido -->
+      <div class="w-full md:w-1/2 pr-4 border-r border-gray-200">
+        <h2 class="text-xl font-bold mb-4">Resumen del Pedido</h2>
+        <ul>
+          <li *ngFor="let item of cart" class="flex items-center mb-4">
+            <img [src]="item.image" alt="{{item.name}}" class="w-16 h-16 object-cover rounded mr-4">
+            <div class="flex-1">
+              <h4 class="text-sm font-semibold">{{item.name}}</h4>
+              <p class="text-xs text-gray-600">${{item.price}} x {{item.quantity}}</p>
+            </div>
+          </li>
+        </ul>
+        <div class="mt-4">
+          <p class="text-lg font-bold">Total: ${{cartTotal}}</p>
+        </div>
+      </div>
+  
+      <!-- Sección de formulario de envío y método de pago -->
+      <div class="w-full md:w-1/2 pl-4">
+        <h2 class="text-xl font-bold mb-4">Detalles de Envío y Pago</h2>
+  
+        <!-- Formulario de envío -->
+        <form>
+          <div class="mb-4">
+            <label for="name" class="block text-gray-700">Nombre Completo</label>
+            <input type="text" id="name" class="w-full border rounded px-3 py-2 mt-1" placeholder="Nombre completo">
+          </div>
+  
+          <div class="mb-4">
+            <label for="address" class="block text-gray-700">Dirección de Envío</label>
+            <input type="text" id="address" class="w-full border rounded px-3 py-2 mt-1" placeholder="Dirección de envío">
+          </div>
+  
+          <div class="mb-4">
+            <label for="paymentMethod" class="block text-gray-700">Método de Pago</label>
+            <select id="paymentMethod" class="w-full border rounded px-3 py-2 mt-1">
+              <option value="creditCard">Tarjeta de Crédito</option>
+              <option value="paypal">PayPal</option>
+              <!-- Otros métodos de pago -->
+            </select>
+          </div>
+  
+          <button type="button" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mt-4">
+            Pagar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  

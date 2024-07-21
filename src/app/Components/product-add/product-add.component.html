@@ -1,0 +1,64 @@
+<div class="container mx-auto mt-8">
+  <!-- Formulario de Agregar Producto -->
+  <div class="bg-white shadow rounded-lg p-6 mb-8 max-w-lg mx-auto">
+    <h1 class="text-2xl font-bold text-gray-800 mb-4">Agregar Nuevo Producto</h1>
+    <form [formGroup]="productForm" (ngSubmit)="addProduct()">
+      <div class="mb-4">
+        <label for="id" class="block text-gray-700">ID del Producto:</label>
+        <input formControlName="id" type="text" id="id" class="mt-1 block w-full p-2 border rounded-md" />
+      </div>
+      <div class="mb-4">
+        <label for="name" class="block text-gray-700">Nombre del Producto:</label>
+        <input formControlName="name" type="text" id="name" class="mt-1 block w-full p-2 border rounded-md" />
+      </div>
+      <div class="mb-4">
+        <label for="description" class="block text-gray-700">Descripción:</label>
+        <textarea formControlName="description" id="description" class="mt-1 block w-full p-2 border rounded-md"></textarea>
+      </div>
+      <div class="mb-4">
+        <label for="quantity" class="block text-gray-700">Cantidad:</label>
+        <input formControlName="quantity" type="number" id="quantity" class="mt-1 block w-full p-2 border rounded-md" />
+      </div>
+      <div class="mb-4">
+        <label for="price" class="block text-gray-700">Precio:</label>
+        <input formControlName="price" type="number" id="price" class="mt-1 block w-full p-2 border rounded-md" />
+      </div>
+      <div class="mb-4">
+        <label for="image" class="block text-gray-700">Imagen:</label>
+        <input type="file" id="image" (change)="onImageChange($event)" class="mt-1 block w-full p-2 border rounded-md" />
+      </div>
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Agregar Producto</button>
+    </form>
+  </div>
+
+  <!-- Tabla de Productos -->
+  <div class="bg-white shadow rounded-lg p-6">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">Lista de Productos</h2>
+    <table class="w-full bg-white border border-gray-200 rounded-lg">
+      <thead>
+        <tr class="bg-gray-100 border-b">
+          <th class="px-4 py-2 text-left">ID</th>
+          <th class="px-4 py-2 text-left">Nombre</th>
+          <th class="px-4 py-2 text-left">Descripción</th>
+          <th class="px-4 py-2 text-left">Cantidad</th>
+          <th class="px-4 py-2 text-left">Precio</th>
+          <th class="px-4 py-2 text-left">Imagen</th>
+          <th class="px-4 py-2 text-left">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products; let i = index">
+          <td class="px-4 py-2">{{ product.id }}</td>
+          <td class="px-4 py-2">{{ product.name }}</td>
+          <td class="px-4 py-2">{{ product.description }}</td>
+          <td class="px-4 py-2">{{ product.quantity }}</td>
+          <td class="px-4 py-2">$ {{ product.price }}</td>
+          <td class="px-4 py-2"><img [src]="product.image" alt="{{ product.name }}" class="w-24 h-16 object-cover rounded-lg" /></td>
+          <td class="px-4 py-2">
+            <button (click)="deleteProduct(i)" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

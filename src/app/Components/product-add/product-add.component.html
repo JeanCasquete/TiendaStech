@@ -1,33 +1,35 @@
-<div class="container mx-auto mt-8">
+<div class="container mx-auto mt-8 px-4 sm:px-6 lg:px-8">
   <!-- Formulario de Agregar Producto -->
-  <div class="bg-white shadow rounded-lg p-6 mb-8 max-w-lg mx-auto">
+  <div class="bg-white shadow rounded-lg p-6 mb-8 max-w-md mx-auto">
     <h1 class="text-2xl font-bold text-gray-800 mb-4">Agregar Nuevo Producto</h1>
     <form [formGroup]="productForm" (ngSubmit)="addProduct()">
-      <div class="mb-4">
-        <label for="id" class="block text-gray-700">ID del Producto:</label>
-        <input formControlName="id" type="text" id="id" class="mt-1 block w-full p-2 border rounded-md" />
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="mb-4">
+          <label for="id" class="block text-gray-700">ID del Producto:</label>
+          <input formControlName="id" type="text" id="id" class="mt-1 block w-full p-2 border rounded-md" />
+        </div>
+        <div class="mb-4">
+          <label for="name" class="block text-gray-700">Nombre del Producto:</label>
+          <input formControlName="name" type="text" id="name" class="mt-1 block w-full p-2 border rounded-md" />
+        </div>
+        <div class="mb-4 col-span-2">
+          <label for="description" class="block text-gray-700">Descripción:</label>
+          <textarea formControlName="description" id="description" class="mt-1 block w-full p-2 border rounded-md"></textarea>
+        </div>
+        <div class="mb-4">
+          <label for="quantity" class="block text-gray-700">Cantidad:</label>
+          <input formControlName="quantity" type="number" id="quantity" class="mt-1 block w-full p-2 border rounded-md" />
+        </div>
+        <div class="mb-4">
+          <label for="price" class="block text-gray-700">Precio:</label>
+          <input formControlName="price" type="number" id="price" class="mt-1 block w-full p-2 border rounded-md" />
+        </div>
+        <div class="mb-4 col-span-2">
+          <label for="image" class="block text-gray-700">Imagen:</label>
+          <input type="file" id="image" (change)="onImageChange($event)" class="mt-1 block w-full p-2 border rounded-md" />
+        </div>
       </div>
-      <div class="mb-4">
-        <label for="name" class="block text-gray-700">Nombre del Producto:</label>
-        <input formControlName="name" type="text" id="name" class="mt-1 block w-full p-2 border rounded-md" />
-      </div>
-      <div class="mb-4">
-        <label for="description" class="block text-gray-700">Descripción:</label>
-        <textarea formControlName="description" id="description" class="mt-1 block w-full p-2 border rounded-md"></textarea>
-      </div>
-      <div class="mb-4">
-        <label for="quantity" class="block text-gray-700">Cantidad:</label>
-        <input formControlName="quantity" type="number" id="quantity" class="mt-1 block w-full p-2 border rounded-md" />
-      </div>
-      <div class="mb-4">
-        <label for="price" class="block text-gray-700">Precio:</label>
-        <input formControlName="price" type="number" id="price" class="mt-1 block w-full p-2 border rounded-md" />
-      </div>
-      <div class="mb-4">
-        <label for="image" class="block text-gray-700">Imagen:</label>
-        <input type="file" id="image" (change)="onImageChange($event)" class="mt-1 block w-full p-2 border rounded-md" />
-      </div>
-      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Agregar Producto</button>
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full">Agregar Producto</button>
     </form>
   </div>
 
@@ -53,12 +55,52 @@
           <td class="px-4 py-2">{{ product.description }}</td>
           <td class="px-4 py-2">{{ product.quantity }}</td>
           <td class="px-4 py-2">$ {{ product.price }}</td>
-          <td class="px-4 py-2"><img [src]="product.image" alt="{{ product.name }}" class="w-24 h-16 object-cover rounded-lg" /></td>
-          <td class="px-4 py-2">
-            <button (click)="deleteProduct(i)" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Eliminar</button>
+          <td class="px-4 py-2"><img [src]="product.image" alt="{{ product.name }}" class="w-16 h-16 object-cover rounded-lg" /></td>
+          <td class="px-4 py-2 flex space-x-2">
+            <button (click)="openUpdateModal(product)" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">Actualizar</button>
+            <button (click)="deleteProduct(i)" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Eliminar</button>
           </td>
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <!-- Modal de Actualización -->
+  <div *ngIf="showUpdateModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">Actualizar Producto</h2>
+      <form [formGroup]="updateProductForm" (ngSubmit)="updateProduct()">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="mb-4">
+            <label for="update-id" class="block text-gray-700">ID del Producto:</label>
+            <input formControlName="id" type="text" id="update-id" class="mt-1 block w-full p-2 border rounded-md" />
+          </div>
+          <div class="mb-4">
+            <label for="update-name" class="block text-gray-700">Nombre del Producto:</label>
+            <input formControlName="name" type="text" id="update-name" class="mt-1 block w-full p-2 border rounded-md" />
+          </div>
+          <div class="mb-4 col-span-2">
+            <label for="update-description" class="block text-gray-700">Descripción:</label>
+            <textarea formControlName="description" id="update-description" class="mt-1 block w-full p-2 border rounded-md"></textarea>
+          </div>
+          <div class="mb-4">
+            <label for="update-quantity" class="block text-gray-700">Cantidad:</label>
+            <input formControlName="quantity" type="number" id="update-quantity" class="mt-1 block w-full p-2 border rounded-md" />
+          </div>
+          <div class="mb-4">
+            <label for="update-price" class="block text-gray-700">Precio:</label>
+            <input formControlName="price" type="number" id="update-price" class="mt-1 block w-full p-2 border rounded-md" />
+          </div>
+          <div class="mb-4 col-span-2">
+            <label for="update-image" class="block text-gray-700">Imagen:</label>
+            <input type="file" id="update-image" (change)="onUpdateImageChange($event)" class="mt-1 block w-full p-2 border rounded-md" />
+          </div>
+        </div>
+        <div class="flex justify-end">
+          <button type="button" (click)="closeUpdateModal()" class="bg-gray-500 text-white px-4 py-2 rounded mr-2 hover:bg-gray-600">Cancelar</button>
+          <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Actualizar Producto</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
